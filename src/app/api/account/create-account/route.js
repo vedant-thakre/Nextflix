@@ -1,5 +1,6 @@
 import connectDB from "@/database"
 import Account from "@/models/account";
+import { hash } from "bcryptjs";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -14,16 +15,16 @@ export async function POST(req){
 
         const allAccounts = await Account.find({});
 
-        if(isExist){
-            return NextResponse({
-            status: false,
-            message: "Account already Exists"
-            });
+        if (isExist && isExist.length > 0) {
+          return NextResponse.json({
+            success: false,
+            message: "Account already Exists",
+          });
         }
 
         if (allAccounts && allAccounts.length === 4) {
-          return NextResponse({
-            status: false,
+          return NextResponse.json({
+            success: false,
             message: "You've reached account limit",
           });
         }
@@ -37,22 +38,22 @@ export async function POST(req){
         })
 
         if(newUser){
-            return NextResponse({
-            status: true,
-            message: "Account created successfully",
+            return NextResponse.json({
+              success: true,
+              message: "Account created successfully",
             });
         }else{
-            return NextResponse({
-            status: false,
-            message: "Failed to create account",
+            return NextResponse.json({
+              success: false,
+              message: "Failed to create account",
             });
         }
         
     } catch (error) {
         console.log(error)
-        return NextResponse({
-            status: false,
-            message: "Something Went Wrong"
+        return NextResponse.json({
+          success: false,
+          message: "Something Went Wrong",
         });
     }
 }

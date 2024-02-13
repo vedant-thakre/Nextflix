@@ -13,8 +13,8 @@ export async function DELETE(req){
         const id = searchParams.get("id");
 
         if(!id){
-            return NextResponse({
-              status: false,
+            return NextResponse.json({
+              success: false,
               message: "Account Id is missing",
             });
         }
@@ -22,17 +22,17 @@ export async function DELETE(req){
         const deletedAccount = await Account.findByIdAndDelete(id);
 
         if(deletedAccount){
-            return NextResponse({
-              status: true,
+            return NextResponse.json({
+              success: true,
               message: "Account deleted successfully",
             });
         }
         
     } catch (error) {
         console.log(error)
-        return NextResponse({
-            status: false,
-            message: "Something Went Wrong"
+        return NextResponse.json({
+          success: false,
+          message: "Something Went Wrong",
         });
     }
 }

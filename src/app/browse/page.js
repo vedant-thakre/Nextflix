@@ -11,7 +11,7 @@ const Browse = () => {
 
   const {loggedInAccount} = useContext(GlobalContext);
   
-  console.log("session", session);
+  //console.log("session", session);
   
   if(session === null) return <Unauthpage/>
   if (loggedInAccount === null) return <MangeAccounts />;

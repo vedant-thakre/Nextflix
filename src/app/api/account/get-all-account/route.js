@@ -16,13 +16,13 @@ export async function GET(req){
 
         if (getAllAcoounts) {
             return NextResponse.json({
-                status: true,
+                success: true,
                 message: "Accounts fetched successfully",
                 data: getAllAcoounts,
             });
         } else {
             return NextResponse.json({
-              status: false,
+              success: false,
               message: "Failed to fetch accounts",
             });
         }
@@ -30,7 +30,7 @@ export async function GET(req){
     } catch (error) {
         console.log(error)
         return NextResponse.json({
-          status: false,
+          success: false,
           message: "Something Went Wrong",
         });
     }
