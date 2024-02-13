@@ -10,16 +10,19 @@ const authOptions = {
   ],
   callbacks: {
     async session({ session, token, user }) {
-      session.user.username = session?.user?.username
-        .split(" ")
-        .join(" ")
-        .toLocaleLowerCase();
+      if (session?.user?.username) {
+        session.user.username = session.user.username
+          .split(" ")
+          .join(" ")
+          .toLocaleLowerCase();
+      }
 
-      session.user.uid = token.sub;
+      session.user.uid = token?.sub;
 
       return session;
     },
   },
+
   secret: process.env.SECRET_KEY,
 };
 

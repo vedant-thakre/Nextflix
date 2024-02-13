@@ -1,9 +1,10 @@
+import { signIn } from 'next-auth/react';
 import React from 'react'
 
 const Unauthpage = () => {
   return (
     <div>
-        <button>Sign In</button>
+        <button onClick={()=> signIn("github")}>Sign In</button>
     </div>
   )
 }
