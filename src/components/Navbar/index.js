@@ -41,13 +41,15 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
 
     return () => {
-        window.removeEventListener("scroll", handleScroll);
-    }
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
-    <div>
-      <header className="relative"></header>
+    <div className="relative">
+      <header
+        className={`header ${isScrolled && "bg-[#141414]"}  hover:bg-[#141414]`}
+      ></header>
     </div>
   );
 };
