@@ -1,5 +1,6 @@
 "use client";
 
+import CommonLayout from "@/components/CommonLayout";
 import MangeAccounts from "@/components/MangeAccounts";
 import Unauthpage from "@/components/Unauthpage";
 import { GlobalContext } from "@/context";
@@ -18,7 +19,9 @@ const Browse = () => {
 
   
 
-  return <div>This is the browse page</div>;
+  return <main>
+    <CommonLayout/>
+  </main>;
 };
 
 export default Browse;
