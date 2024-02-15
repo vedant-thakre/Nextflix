@@ -1,7 +1,7 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -57,12 +57,12 @@ const Navbar = () => {
             height={120}
             alt="NETFLIX"
             className="cursor-pointer object-cover"
-            onClick={() => router.push("/")}
+            onClick={() => router.push("/browse")}
           />
           <ul className="hidden md:space-x-4 md:flex cursor-pointer">
             {menuItems.map((item) => (
-              <li className="cursor-pointer text-[16px] font-light text-[#e5e5e5] transition duration-[.4s] hover:text-[#b3b3b3]">
-                {item.name}
+              <li key={item.id} className="cursor-pointer text-[16px] font-light text-[#e5e5e5] transition duration-[.4s] hover:text-[#b3b3b3]">
+                {item.title}
               </li>
             ))}
           </ul>

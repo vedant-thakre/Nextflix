@@ -10,11 +10,11 @@ const CommonLayout = () => {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
     >
-        <Head>
+        <header>
             <title>Netflix</title>
             {/* to dot add all other properties */}
 
-        </Head>
+        </header>
         <>
         <Navbar/>
         <div className='relative pl-4 pb-24 lg:space-y-24'>
