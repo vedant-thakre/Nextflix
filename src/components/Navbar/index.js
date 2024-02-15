@@ -1,13 +1,20 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { AiOutlineSearch } from "react-icons/ai";
+import React, { useContext, useEffect, useState } from "react";
+import Search from "./search";
+import { GlobalContext } from "@/context";
 
 const Navbar = () => {
   const { data: session } = useSession();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showSearchBar, setShowSearchBar] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('')
   const router = useRouter();
   const pathName = usePathname();
+
+  const { setPageLoader } = useContext(GlobalContext);
 
   const menuItems = [
     {
@@ -61,11 +68,28 @@ const Navbar = () => {
           />
           <ul className="hidden md:space-x-4 md:flex cursor-pointer">
             {menuItems.map((item) => (
-              <li key={item.id} className="cursor-pointer text-[16px] font-light text-[#e5e5e5] transition duration-[.4s] hover:text-[#b3b3b3]">
+              <li
+                key={item.id}
+                className="cursor-pointer text-[16px] font-light text-[#e5e5e5] transition duration-[.4s] hover:text-[#b3b3b3]"
+              >
                 {item.title}
               </li>
             ))}
           </ul>
+        </div>
+        <div className="font-light flex items-center space-x-4 text-sm">
+          {showSearchBar ? (
+            <Search
+              pathName={pathName}
+              router={router}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              setPageLoader={setPageLoader}
+              setShowSearchBar={setShowSearchBar}
+            />
+          ) : (
+            <AiOutlineSearch onClick={()=> setShowSearchBar(true)} className="hidden sm:inline sm:w-6 sm:h-6 cursor-pointer" />
+          )}
         </div>
       </header>
     </div>
