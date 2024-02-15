@@ -1,20 +1,28 @@
 "use client";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { AiOutlineSearch } from "react-icons/ai";
 import React, { useContext, useEffect, useState } from "react";
 import Search from "./search";
 import { GlobalContext } from "@/context";
+import AccountPopUp from "./AccountPopUp";
 
 const Navbar = () => {
   const { data: session } = useSession();
   const [isScrolled, setIsScrolled] = useState(false);
   const [showSearchBar, setShowSearchBar] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showAccountPopUp, setShowAccountPopUp] = useState(false);
   const router = useRouter();
   const pathName = usePathname();
 
-  const { setPageLoader } = useContext(GlobalContext);
+  const {
+    setPageLoader,
+    loggedInAccount,
+    accounts,
+    setAccounts,
+    setLoggedInAccount,
+  } = useContext(GlobalContext);
 
   const menuItems = [
     {
@@ -52,6 +60,27 @@ const Navbar = () => {
     };
   }, []);
 
+  const getAllAccounts = async () => {
+    const res = await fetch(
+      `/api/account/get-all-account?id=${session?.user?.uid}`,
+      {
+        method: "GET",
+      }
+    );
+
+    const data = await res.json();
+
+    if (data && data.data && data.data.length) {
+      setAccounts(data.data);
+    }
+    setPageLoader(false);
+  };
+
+  useEffect(() => {
+   getAllAccounts();
+  }, [])
+  
+
   return (
     <div className="relative">
       <header
@@ -88,10 +117,33 @@ const Navbar = () => {
               setShowSearchBar={setShowSearchBar}
             />
           ) : (
-            <AiOutlineSearch onClick={()=> setShowSearchBar(true)} className="hidden sm:inline sm:w-6 sm:h-6 cursor-pointer" />
+            <AiOutlineSearch
+              onClick={() => setShowSearchBar(true)}
+              className="hidden sm:inline sm:w-6 sm:h-6 cursor-pointer"
+            />
           )}
+          <div
+            onClick={() => setShowAccountPopUp(!showAccountPopUp)}
+            className="flex gap-2 items-center cursor-pointer"
+          >
+            <img
+              src="https://occ-0-2611-3663.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABfNXUMVXGhnCZwPI1SghnGpmUgqS_J-owMff-jig42xPF7vozQS1ge5xTgPTzH7ttfNYQXnsYs4vrMBaadh4E6RTJMVepojWqOXx.png?r=1d4"
+              alt="current profile"
+              className="max-w-[30px] rounded min-w-[20px] max-h-[30px] min-h-[20px] object-cover w-[30px] h-[30px]"
+            />
+            <p>{loggedInAccount && loggedInAccount.name}</p>
+          </div>
         </div>
       </header>
+      {showAccountPopUp && (
+        <AccountPopUp
+          accounts={accounts}
+          setPageLoader={setPageLoader}
+          signOut={signOut}
+          loggedInAccount={loggedInAccount}
+          setLoggedInAccount={setLoggedInAccount}
+        />
+      )}
     </div>
   );
 };
