@@ -6,6 +6,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Search from "./search";
 import { GlobalContext } from "@/context";
 import AccountPopUp from "./AccountPopUp";
+import CircleLoader from "../CircleLoader";
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -18,6 +19,7 @@ const Navbar = () => {
 
   const {
     setPageLoader,
+    pageLoader,
     loggedInAccount,
     accounts,
     setAccounts,
@@ -80,6 +82,7 @@ const Navbar = () => {
    getAllAccounts();
   }, [])
   
+  if(pageLoader) return <CircleLoader/>
 
   return (
     <div className="relative">

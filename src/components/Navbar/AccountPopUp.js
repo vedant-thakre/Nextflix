@@ -15,7 +15,10 @@ const AccountPopUp = ({
           ? accounts
               .filter((item) => item._id !== loggedInAccount._id)
               .map((account) => (
-                <div key={account._id} className="cursor-pointer flex gap-5 ">
+                <div key={account._id} onClick={() => {
+                    setLoggedInAccount(null);
+                    sessionStorage.removeItem("loggedInAccount");
+                }} className="cursor-pointer flex gap-5 ">
                   <img
                     src="https://occ-0-2611-3663.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABfNXUMVXGhnCZwPI1SghnGpmUgqS_J-owMff-jig42xPF7vozQS1ge5xTgPTzH7ttfNYQXnsYs4vrMBaadh4E6RTJMVepojWqOXx.png?r=1d4"
                     alt="current profile"
@@ -27,6 +30,14 @@ const AccountPopUp = ({
                 </div>
               ))
           : null}
+      </div>
+      <div>
+        <button onClick={()=> {
+            setPageLoader(true);
+            signOut();
+            setLoggedInAccount(null);
+            sessionStorage.removeItem("loggedInAccount");
+        }} >Sign Out</button>
       </div>
     </div>
   );
