@@ -28,7 +28,11 @@ const MediaItem = ({ media, title }) => {
         />
       </div>
       <div className="space-x-3 hidden absolute p-2 bottom-0 buttonWrapper">
-        <button></button>
+        <button>
+            {
+                media?.addedToFavorites ? : 
+            }
+        </button>
       </div>
     </motion.div>
   );
