@@ -3,10 +3,10 @@ import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import {
-    PlusIcon,
-    ChevronDownIcon,
-    CheckIcon
-} from '@heroicons/react/24/outline'
+  PlusIcon,
+  ChevronDownIcon,
+  CheckIcon,
+} from "@heroicons/react/24/outline";
 
 const base = "https://image.tmdb.org/t/p/w500";
 
@@ -31,15 +31,25 @@ const MediaItem = ({ media, title }) => {
           layout="fill"
           className="rounded sm object-cover md:rounded hover:rounded-sm"
         />
-      </div>
-      <div className="space-x-3 hidden absolute p-2 bottom-0 buttonWrapper">
-        <button>
-          {media?.addedToFavorites ? (
-            <CheckIcon color="#ffffff" className="h-7 w-7" />
-          ) : (
-            <PlusIcon color="#ffffff" className="h-7 w-7" />
-          )}
-        </button>
+        <div className="space-x-3 hidden absolute p-2 bottom-0 buttonWrapper">
+          <button
+            className={`${
+              media?.addedToFavorites && !listView && "cursor-not-allowed"
+            } cursor-pointer border flex p-2 items-center gap-x-2 rounded-full  text-sm font-semibold transition hover:opacity-90 border-white   bg-black opacity-75 text-black`}
+          >
+            {media?.addedToFavorites ? (
+              <CheckIcon color="#ffffff" className="h-7 w-7" />
+            ) : (
+              <PlusIcon color="#ffffff" className="h-7 w-7" />
+            )}
+          </button>
+          <button
+            className="cursor-pointer p-2 border flex items-center gap-x-2 rounded-full  text-sm
+         font-semibold transition hover:opacity-90  border-white  bg-black opacity-75 "
+          >
+            <ChevronDownIcon color="#ffffff" className="h-7 w-7" />
+          </button>
+        </div>
       </div>
     </motion.div>
   );
