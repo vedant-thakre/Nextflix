@@ -2,6 +2,11 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import {
+    PlusIcon,
+    ChevronDownIcon,
+    CheckIcon
+} from '@heroicons/react/24/outline'
 
 const base = "https://image.tmdb.org/t/p/w500";
 
@@ -29,9 +34,11 @@ const MediaItem = ({ media, title }) => {
       </div>
       <div className="space-x-3 hidden absolute p-2 bottom-0 buttonWrapper">
         <button>
-            {
-                media?.addedToFavorites ? : 
-            }
+          {media?.addedToFavorites ? (
+            <CheckIcon color="#ffffff" className="h-7 w-7" />
+          ) : (
+            <PlusIcon color="#ffffff" className="h-7 w-7" />
+          )}
         </button>
       </div>
     </motion.div>
