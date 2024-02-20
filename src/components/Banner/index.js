@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { AiFillPlayCircle } from "react-icons/ai";
 import { IoMdInformationCircleOutline } from "react-icons/io";
@@ -7,6 +8,7 @@ import { IoMdInformationCircleOutline } from "react-icons/io";
 const base = "https://image.tmdb.org/t/p/original";
 
 const Banner = ({ media }) => {
+  const router = useRouter();
   const createRandomMedia =
     media && media.length
       ? media[Math.floor(Math.random() * media.length)]
@@ -34,6 +36,11 @@ const Banner = ({ media }) => {
       </p>
       <div className="flex space-x-3">
         <button
+          onClick={() =>
+            router.push(
+              `/watch/${createRandomMedia?.type}/${createRandomMedia?.id}`
+            )
+          }
           className="cursor-pointer flex items-center gap-x-2 rounded px-5 py-1.5
          text-sm font-semibold transition hover:opacity-75 md:py-2.5 md:px-8 md:text-xl bg-white text-black"
         >

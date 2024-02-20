@@ -83,3 +83,21 @@ export const getTVOrMoviesByGenre = async (type, id) => {
     console.log(error);
   }
 };
+
+
+export const getTVorMovieVideosByID = async (type, id) => {
+  try {
+    const res = await fetch(
+      `${BASE}/${type}/${id}/videos?api_key=${KEY}&language=en-US&append_to_response=videos`,
+      {
+        method: "GET",
+      }
+    );
+
+    const data = await res.json();
+
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+};
