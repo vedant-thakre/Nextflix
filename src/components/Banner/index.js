@@ -16,7 +16,7 @@ const Banner = ({ media }) => {
       <div className="absolute top-0 left-0 h-[95vh] w-screen -z-10">
         <Image
           src={`${base}/${
-            createRandomMedia.backdrop_path || createRandomMedia.poster_path
+            createRandomMedia?.backdrop_path || createRandomMedia?.poster_path
           } `}
           alt="Banner"
           layout="fill"
@@ -25,12 +25,12 @@ const Banner = ({ media }) => {
         <div className="absolute w-full h-32 bg-gradient-to-t from-gray-950 to-transparent bottom-0 z-20"></div>
       </div>
       <h1 className="text-2xl md:taxt-4xl lg:text-7xl font-bold">
-        {createRandomMedia.title ||
-          createRandomMedia.name ||
-          createRandomMedia.original_name}
+        {createRandomMedia?.title ||
+          createRandomMedia?.name ||
+          createRandomMedia?.original_name}
       </h1>
       <p className="max-w-xs text-shadow-md text-xs md:max-w-lg md:text-lg lg:max-w-2xl line-clamp-5">
-        {createRandomMedia.overview}
+        {createRandomMedia?.overview}
       </p>
       <div className="flex space-x-3">
         <button

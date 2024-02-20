@@ -63,3 +63,23 @@ export const getPopularMedias = async (type) => {
     console.log(error);
   }
 };
+
+
+export const getTVOrMoviesByGenre = async (type, id) => {
+  try {
+    const res = await fetch(
+      `${BASE}/discover/${type}?api_key=${KEY}&language=en-US&include_adult=false&sort_by=popularity.desc&with_genres=${id}`,
+      {
+        method: "GET",
+      }
+    );
+
+    const data = await res.json();
+
+    console.log(data);
+
+    return data && data.results;
+  } catch (error) {
+    console.log(error);
+  }
+};

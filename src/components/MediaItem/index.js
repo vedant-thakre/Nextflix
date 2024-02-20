@@ -7,10 +7,12 @@ import {
   ChevronDownIcon,
   CheckIcon,
 } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 
 const base = "https://image.tmdb.org/t/p/w500";
 
 const MediaItem = ({ media, title }) => {
+  const router = useRouter();
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.5 }}
@@ -23,13 +25,14 @@ const MediaItem = ({ media, title }) => {
     >
       <div
         className="relative cardWrapper h-28 min-w-[180px] cursor-pointer md:h-36 md:min-w-[260px]
-         transform transition duration-500 hover:scale-110 hover:z-[999]"
+         transform transition duration-500 hover:scale-110 hover:z-[500]"
       >
         <Image
           src={`${base}${media?.backdrop_path || media?.poster_path}`}
           alt="media"
           layout="fill"
           className="rounded sm object-cover md:rounded hover:rounded-sm"
+          onClick={()=> router.push(`/watch/${media?.type}/${media?.id}`)}
         />
         <div className="space-x-3 hidden absolute p-2 bottom-0 buttonWrapper">
           <button
