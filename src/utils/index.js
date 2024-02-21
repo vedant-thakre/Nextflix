@@ -112,7 +112,7 @@ export const getTVorMovieSearchResults = async (type, query) => {
 
     const data = await res.json();
 
-    return data;
+    return data && data.results;
   } catch (e) {
     console.log(e);
   }
