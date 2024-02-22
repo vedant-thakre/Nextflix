@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 
 const base = "https://image.tmdb.org/t/p/w500";
 
-const MediaItem = ({ media, title }) => {
+const MediaItem = ({ media, searchView = false }) => {
   const router = useRouter();
   return (
     <motion.div

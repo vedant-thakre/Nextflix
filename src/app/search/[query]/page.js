@@ -9,6 +9,7 @@ import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect } from "react";
 import Navbar from "@/components/Navbar";
+import MediaItem from "@/components/MediaItem";
 
 const Search = () => {
   const { data: session } = useSession();
@@ -63,8 +64,19 @@ const Search = () => {
       viewport={{ once: true }}
     >
       <Navbar />
-      <div className="-mt-[100px] space-y-0.5 md:space-y-2 px-4">
-        
+      <div className="mt-[100px] space-y-0.5 md:space-y-2 px-4">
+        <h2 className="cursor-pointer text-sm font-semibold text-[#e5e5e5] transition-colors duration-200 hover:text-white md:text-2xl">
+          Showing Results for {decodeURI(params.query)}
+        </h2>
+        <div className="grid grid-cols-5 gap-3 items-center scrollbar-hide md:p-2">
+          { 
+            searchResults && searchResults.length ? 
+              searchResults.map((searchItem) => (
+                <MediaItem key={searchItem.id} media={searchItem} searchView={true}/>
+              ))
+             : null
+          } 
+        </div>
       </div>
     </motion.div>
   );
