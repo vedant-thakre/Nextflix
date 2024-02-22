@@ -8,11 +8,17 @@ import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect } from "react";
+import Navbar from "@/components/Navbar";
 
 const Search = () => {
   const { data: session } = useSession();
-  const { loggedInAccount, searchResults, pageLoder, setSearchResults, setPageLoader } =
-    useContext(GlobalContext);
+  const {
+    loggedInAccount,
+    searchResults,
+    pageLoder,
+    setSearchResults,
+    setPageLoader,
+  } = useContext(GlobalContext);
   const params = useParams();
 
   useEffect(() => {
@@ -20,17 +26,21 @@ const Search = () => {
       const tvShows = await getTVorMovieSearchResults("tv", params.query);
       const movies = await getTVorMovieSearchResults("movie", params.query);
 
-       setSearchResults([
-          ...tvShows.filter(
+      setSearchResults([
+        ...tvShows
+          .filter(
             (item) => item.backdrop_path !== null && item.poster_path !== null
-          ).map((tvShowItem) => ({
+          )
+          .map((tvShowItem) => ({
             ...tvShowItem,
             type: "tv",
             addedToFavorites: false,
           })),
-          ...movies.filter(
+        ...movies
+          .filter(
             (item) => item.backdrop_path !== null && item.poster_path !== null
-          ).map((movieItem) => ({
+          )
+          .map((movieItem) => ({
             ...movieItem,
             type: "movie",
             addedToFavorites: false,
@@ -48,11 +58,14 @@ const Search = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0}}
-      animate={{ opacity: 1}}
-      viewport={{ once: true}}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      viewport={{ once: true }}
     >
-
+      <Navbar />
+      <div className="-mt-[100px] space-y-0.5 md:space-y-2 px-4">
+        
+      </div>
     </motion.div>
   );
 };
