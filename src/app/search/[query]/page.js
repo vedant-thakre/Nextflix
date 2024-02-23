@@ -63,7 +63,8 @@ const Search = () => {
       animate={{ opacity: 1 }}
       viewport={{ once: true }}
     >
-      <Navbar />
+      <Navbar /> 
+      {/*  The rest of the search page  */}
       <div className="mt-[100px] space-y-0.5 md:space-y-2 px-4">
         <h2 className="cursor-pointer text-sm font-semibold text-[#e5e5e5] transition-colors duration-200 hover:text-white md:text-2xl">
           Showing Results for {decodeURI(params.query)}
