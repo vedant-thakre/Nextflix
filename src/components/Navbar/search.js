@@ -22,7 +22,7 @@ const Search = ({
       }
     }
   }  
-
+  // completed the navbar component for search page
   return (
     <div className="hidden md:flex items-center justify-center text-center">
       <div className="bg-[rgba(0,0,0,0.75)] border border-[hsla(0,0%,100%,0.85)] px-4 items-center text-center flex">
