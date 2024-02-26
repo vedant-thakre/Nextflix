@@ -13,13 +13,13 @@ export default function GlobalState({ children }) {
   const [pageLoader, setPageLoader] = useState(true);
   const [mediaData, setMediaData] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
+  const [currentMediaInfoIdAndType, setCurrentMediaInfoIdAndType] = useState(null);
 
   const { data: session } = useSession();
 
   useEffect(() => {
     setLoggedInAccount(JSON.parse(sessionStorage.getItem("loggedInAccount")));
-  }, [])
-  
+  }, []);
 
   if (session === undefined) return <CircleLoader />;
 
@@ -32,7 +32,9 @@ export default function GlobalState({ children }) {
         setAccounts,
         pageLoader,
         setPageLoader,
-        searchResults, 
+        currentMediaInfoIdAndType, 
+        setCurrentMediaInfoIdAndType,
+        searchResults,
         setSearchResults,
         mediaData,
         setMediaData,

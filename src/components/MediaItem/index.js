@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import {
@@ -8,11 +8,14 @@ import {
   CheckIcon,
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
+import { GlobalContext } from "@/context";
 
 const base = "https://image.tmdb.org/t/p/w500";
 
 const MediaItem = ({ media, searchView = false }) => {
   const router = useRouter();
+  const { currentMediaInfoIdAndType, setCurrentMediaInfoIdAndType } =
+    useContext(GlobalContext);
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.5 }}
@@ -32,7 +35,7 @@ const MediaItem = ({ media, searchView = false }) => {
           alt="media"
           layout="fill"
           className="rounded sm object-cover md:rounded hover:rounded-sm"
-          onClick={()=> router.push(`/watch/${media?.type}/${media?.id}`)}
+          onClick={() => router.push(`/watch/${media?.type}/${media?.id}`)}
         />
         <div className="space-x-3 hidden absolute p-2 bottom-0 buttonWrapper">
           <button
@@ -47,6 +50,12 @@ const MediaItem = ({ media, searchView = false }) => {
             )}
           </button>
           <button
+            onClick={() => {
+              setCurrentMediaInfoIdAndType({
+                type: media?.type,
+                id: media?.id,
+              });
+            }}
             className="cursor-pointer p-2 border flex items-center gap-x-2 rounded-full  text-sm
          font-semibold transition hover:opacity-90  border-white  bg-black opacity-75 "
           >
