@@ -7,6 +7,7 @@ import Search from "./search";
 import { GlobalContext } from "@/context";
 import AccountPopUp from "./AccountPopUp";
 import CircleLoader from "../CircleLoader";
+import DetailsPopUp from "../DetailsPopUp";
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -24,6 +25,8 @@ const Navbar = () => {
     accounts,
     setAccounts,
     setLoggedInAccount,
+    showDetailsPopUp,
+    setShowDetailsPopUp,
   } = useContext(GlobalContext);
 
   const menuItems = [
@@ -79,10 +82,10 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-   getAllAccounts();
-  }, [])
-  
-  if(pageLoader) return <CircleLoader/>
+    getAllAccounts();
+  }, []);
+
+  if (pageLoader) return <CircleLoader />;
 
   return (
     <div className="relative z-[999]">
@@ -104,7 +107,7 @@ const Navbar = () => {
                 onClick={() => {
                   setPageLoader(true);
                   router.push(item.path);
-                  setSearchQuery('');
+                  setSearchQuery("");
                   setShowSearchBar(false);
                 }}
                 key={item.id}
@@ -144,6 +147,7 @@ const Navbar = () => {
           </div>
         </div>
       </header>
+      <DetailsPopUp show={showDetailsPopUp} setShow={setShowDetailsPopUp} />
       {showAccountPopUp && (
         <AccountPopUp
           accounts={accounts}

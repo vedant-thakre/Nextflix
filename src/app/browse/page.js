@@ -87,7 +87,7 @@ const Browse = () => {
   if (loggedInAccount === null) return <MangeAccounts />;
   if (pageLoader) return <CircleLoader/>
 
-  console.log(mediaData);
+  // console.log(mediaData);
 
   return (
     <main className="flex min-h-screen flex-col">

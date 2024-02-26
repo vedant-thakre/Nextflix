@@ -22,15 +22,17 @@ const page = () => {
         params.id[1]
       );
 
-      if (extractMediaDetails) {
-        const findIndexOfTrailer = extractMediaDetails.results?.findIndex(
+      if (extractMediaDetails && extractMediaDetails.results) {
+        const findIndexOfTrailer = extractMediaDetails.results.findIndex(
           (item) => item.type === "Trailer"
         );
 
-        const findIndexOfClip = extractMediaDetails.results?.findIndex(
+        const findIndexOfClip = extractMediaDetails.results.findIndex(
           (item) => item.type === "Clip"
         );
+
         setMediaDetails(extractMediaDetails);
+
         setKey(
           findIndexOfTrailer !== -1
             ? extractMediaDetails.results[findIndexOfTrailer]?.key
@@ -38,11 +40,13 @@ const page = () => {
             ? extractMediaDetails.results[findIndexOfClip]?.key
             : "XuDwndGaCFo"
         );
+
         setPageLoader(false);
       }
 
       console.log(extractMediaDetails);
     };
+
     getMediaDetails();
   }, [params]);
 

@@ -12,10 +12,14 @@ import { GlobalContext } from "@/context";
 
 const base = "https://image.tmdb.org/t/p/w500";
 
-const MediaItem = ({ media, searchView = false }) => {
+const MediaItem = ({ media, searchView = false, similarMovieView = false }) => {
   const router = useRouter();
-  const { currentMediaInfoIdAndType, setCurrentMediaInfoIdAndType } =
-    useContext(GlobalContext);
+  const {
+    currentMediaInfoIdAndType,
+    showDetailsPopUp,
+    setShowDetailsPopUp,
+    setCurrentMediaInfoIdAndType,
+  } = useContext(GlobalContext);
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.5 }}
@@ -51,6 +55,7 @@ const MediaItem = ({ media, searchView = false }) => {
           </button>
           <button
             onClick={() => {
+              setShowDetailsPopUp(true);
               setCurrentMediaInfoIdAndType({
                 type: media?.type,
                 id: media?.id,

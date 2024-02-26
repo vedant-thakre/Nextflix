@@ -64,7 +64,6 @@ export const getPopularMedias = async (type) => {
   }
 };
 
-
 export const getTVOrMoviesByGenre = async (type, id) => {
   try {
     const res = await fetch(
@@ -84,7 +83,6 @@ export const getTVOrMoviesByGenre = async (type, id) => {
   }
 };
 
-
 export const getTVorMovieVideosByID = async (type, id) => {
   try {
     const res = await fetch(
@@ -101,10 +99,45 @@ export const getTVorMovieVideosByID = async (type, id) => {
     console.log(e);
   }
 };
+
 export const getTVorMovieSearchResults = async (type, query) => {
   try {
     const res = await fetch(
       `${BASE}/search/${type}?api_key=${KEY}&include_adult=false&language=en-US&query=${query}`,
+      {
+        method: "GET",
+      }
+    );
+
+    const data = await res.json();
+
+    return data && data.results;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getTVorMovieDetailsByID = async (type, id) => {
+  try {
+    const res = await fetch(
+      `${BASE}/${type}/${id}?api_key=${KEY}&language=en-US&append_to_response=videos`,
+      {
+        method: "GET",
+      }
+    );
+
+    const data = await res.json();
+
+    return data ;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getSimilarTVorMovies = async (type, id) => {
+  try {
+    const res = await fetch(
+      `${BASE}/${type}/${id}/similar?api_key=${KEY}&language=en-US`,
       {
         method: "GET",
       }
