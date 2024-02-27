@@ -13,6 +13,8 @@ import { GlobalContext } from "@/context";
 import { getSimilarTVorMovies, getTVorMovieDetailsByID } from "@/utils";
 import ReactPlayer from "react-player";
 import MediaItem from "../MediaItem";
+import { AiFillPlayCircle } from "react-icons/ai";
+import { useRouter } from "next/navigation";
 
 const DetailsPopUp = ({ show, setShow }) => {
   const {
@@ -25,7 +27,8 @@ const DetailsPopUp = ({ show, setShow }) => {
     loggedInAccount,
   } = useContext(GlobalContext);
   const [key, setKey] = useState("");
-
+  
+  const router = useRouter();
   console.log("currentMediaInfoIdAndType", currentMediaInfoIdAndType);
 
   useEffect(() => {
@@ -120,6 +123,23 @@ const DetailsPopUp = ({ show, setShow }) => {
               height={"100%"}
               style={{ position: "absolute", top: "0", left: "0" }}
             />
+             <div className="absolute bottom-[4.25rem] flex w-full items-center justify-between pl-[1.5rem]">
+              <div>
+                <button
+                  onClick={() =>
+                    router.push(
+                      `/watch/${currentMediaInfoIdAndType?.type}/${currentMediaInfoIdAndType?.id}`
+                    )
+                  }
+                  className="cursor-pointer flex items-center gap-x-2 rounded px-5 py-1.5 text-sm font-semibold transition hover:opacity-75 md:py-2.5 md:px-8 md:text-xl bg-white text-black"
+                >
+                  <AiFillPlayCircle className="h-4 w-4 text-black md:h-7 md:w-7 cursor-pointer" />
+                  Play
+                </button>
+              </div>
+            </div>
+          </div>
+
           </div>
 
           <div className="rounded-b-md bg-[#181818] p-8">
