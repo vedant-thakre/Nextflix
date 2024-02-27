@@ -23,7 +23,6 @@ const DetailsPopUp = ({ show, setShow }) => {
     similarMedias,
     setSimilarMedias,
     currentMediaInfoIdAndType,
-    setCurrentMediaInfoIdAndType,
     loggedInAccount,
   } = useContext(GlobalContext);
   const [key, setKey] = useState("");
