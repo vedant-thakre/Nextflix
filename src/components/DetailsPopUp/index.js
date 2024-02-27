@@ -121,15 +121,24 @@ const DetailsPopUp = ({ show, setShow }) => {
               style={{ position: "absolute", top: "0", left: "0" }}
             />
           </div>
-          <h2 className="mt-10 mb-6 cursor-pointer text-sm font-semibold text-[#e5e5e5] transition-colors duration-200 hover:text-white md:text-2xl">
-            More Like This
-          </h2>
-          {/* <div className="grid grid-cols-5 gap-3 items-center scrollbar-hide md:p-2">
-            
-          </div> */}
 
-          <div className="rounded-b-md bg-[#181818 p-8">
-            <div>
+          <div className="rounded-b-md bg-[#181818] p-8">
+            <div className="space-x-2 pb-4 flex gap-4">
+              <div className="text-green-400 font-semibold flex gap-2">
+                <span>
+                  {mediaDetails?.release_date
+                    ? mediaDetails?.release_date.split("-")[0]
+                    : "2023"}
+                </span>
+                <div className="inline-flex border-2 border-white/40 rounded px-2">
+                  HD
+                </div>
+              </div>
+            </div>
+            <h2 className="mt-10 mb-6 cursor-pointer text-sm font-semibold text-[#e5e5e5] transition-colors duration-200 hover:text-white md:text-2xl">
+              More Like This
+            </h2>
+            <div className="grid grid-cols-5 gap-3 items-center scrollbar-hide md:p-2">
               {similarMedias && similarMedias.length
                 ? similarMedias
                     .filter(
