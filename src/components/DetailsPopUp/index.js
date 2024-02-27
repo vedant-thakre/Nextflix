@@ -27,7 +27,7 @@ const DetailsPopUp = ({ show, setShow }) => {
     loggedInAccount,
   } = useContext(GlobalContext);
   const [key, setKey] = useState("");
-  
+
   const router = useRouter();
   console.log("currentMediaInfoIdAndType", currentMediaInfoIdAndType);
 
@@ -123,7 +123,7 @@ const DetailsPopUp = ({ show, setShow }) => {
               height={"100%"}
               style={{ position: "absolute", top: "0", left: "0" }}
             />
-             <div className="absolute bottom-[4.25rem] flex w-full items-center justify-between pl-[1.5rem]">
+            <div className="absolute bottom-[4.25rem] flex w-full items-center justify-between pl-[1.5rem]">
               <div>
                 <button
                   onClick={() =>
@@ -138,8 +138,6 @@ const DetailsPopUp = ({ show, setShow }) => {
                 </button>
               </div>
             </div>
-          </div>
-
           </div>
 
           <div className="rounded-b-md bg-[#181818] p-8">
