@@ -9,17 +9,48 @@ import {
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { GlobalContext } from "@/context";
+import { useSession } from "next-auth/react";
 
 const base = "https://image.tmdb.org/t/p/w500";
 
-const MediaItem = ({ media, searchView = false, similarMovieView = false }) => {
+const MediaItem = ({ media, searchView = false, similarMovieView = false, listView = false }) => {
   const router = useRouter();
+  const { data: session } = useSession();
   const {
     currentMediaInfoIdAndType,
     showDetailsPopUp,
     setShowDetailsPopUp,
+    loggedInAccount,
     setCurrentMediaInfoIdAndType,
   } = useContext(GlobalContext);
+
+
+  const handleAddToFavorites = async (item) => {
+    const { backdrop_path, poster_path, id, type } = item;
+    const res = await fetch("/api/favorites/add-favorites", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        backdrop_path,
+        poster_path,
+        movieID: id,
+        type,
+        uid: session?.user?.uid,
+        accountID: loggedInAccount?._id,
+      }),
+    });
+
+    const data = await res.json();
+
+    console.log(data, "vedant");
+  };
+
+  const handleRemoveFavorites = async(item) => {
+
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.5 }}
@@ -43,6 +74,11 @@ const MediaItem = ({ media, searchView = false, similarMovieView = false }) => {
         />
         <div className="space-x-3 hidden absolute p-2 bottom-0 buttonWrapper">
           <button
+            onClick={
+              media?.addedToFavorites
+                  ? () => handleRemoveFavorites(media)
+                  : () => handleAddToFavorites(media)
+            }
             className={`${
               media?.addedToFavorites && !listView && "cursor-not-allowed"
             } cursor-pointer border flex p-2 items-center gap-x-2 rounded-full  text-sm font-semibold transition hover:opacity-90 border-white   bg-black opacity-75 text-black`}

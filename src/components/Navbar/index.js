@@ -48,7 +48,7 @@ const Navbar = () => {
     {
       id: "my-list",
       title: "My List",
-      path: "/mylist",
+      path: `/my-list/${session?.user?.uid}/${loggedInAccount?._id}`,
     },
   ];
 

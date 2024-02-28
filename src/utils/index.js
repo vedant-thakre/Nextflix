@@ -128,7 +128,7 @@ export const getTVorMovieDetailsByID = async (type, id) => {
 
     const data = await res.json();
 
-    return data ;
+    return data;
   } catch (e) {
     console.log(e);
   }
@@ -146,6 +146,23 @@ export const getSimilarTVorMovies = async (type, id) => {
     const data = await res.json();
 
     return data && data.results;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getAllfavorites = async (uid, accountID) => {
+  try {
+    const res = await fetch(
+      `/api/favorites/get-all-favorites?id=${uid}&accountID=${accountID}`,
+      {
+        method: "GET",
+      }
+    );
+
+    const data = await res.json();
+    
+    return data && data.data;
   } catch (e) {
     console.log(e);
   }
