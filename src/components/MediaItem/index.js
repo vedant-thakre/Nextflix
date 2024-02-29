@@ -7,22 +7,42 @@ import {
   ChevronDownIcon,
   CheckIcon,
 } from "@heroicons/react/24/outline";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { GlobalContext } from "@/context";
 import { useSession } from "next-auth/react";
+import { getAllfavorites } from "@/utils";
 
 const base = "https://image.tmdb.org/t/p/w500";
 
 const MediaItem = ({ media, searchView = false, similarMovieView = false, listView = false }) => {
   const router = useRouter();
   const { data: session } = useSession();
+  const pathName = usePathname();
+
   const {
     currentMediaInfoIdAndType,
     showDetailsPopUp,
     setShowDetailsPopUp,
+    similarMedias,
+    setSimilarMedias,
     loggedInAccount,
+    setFavorites,
+    searchResults,
+    setSearchResults,
     setCurrentMediaInfoIdAndType,
   } = useContext(GlobalContext);
+
+
+  const updateFavorites = async() => {
+    const res = await getAllfavorites(session?.user?.uid, loggedInAccount?._id);
+    if (res)
+      setFavorites(
+        res.map((item) => ({
+          ...item,
+          addedToFavorites: true,
+        }))
+      );
+  }
 
 
   const handleAddToFavorites = async (item) => {
@@ -43,6 +63,54 @@ const MediaItem = ({ media, searchView = false, similarMovieView = false, listVi
     });
 
     const data = await res.json();
+
+    if (data && data.success) {
+      if (pathName.includes("my-list")) updateFavorites();
+      if (searchView) {
+        let updatedSearchResults = [...searchResults];
+        const indexOfCurrentAddedMedia = updatedSearchResults.findIndex(
+          (item) => item.id === id
+        );
+
+        updatedSearchResults[indexOfCurrentAddedMedia] = {
+          ...updatedSearchResults[indexOfCurrentAddedMedia],
+          addedToFavorites: true,
+        };
+
+        setSearchResults(updatedSearchResults);
+      } else if (similarMovieView) {
+        let updatedSimilarMedias = [...similarMedias];
+        const indexOfCurrentAddedMedia = updatedSimilarMedias.findIndex(
+          (item) => item.id === id
+        );
+
+        updatedSimilarMedias[indexOfCurrentAddedMedia] = {
+          ...updatedSimilarMedias[indexOfCurrentAddedMedia],
+          addedToFavorites: true,
+        };
+
+        setSimilarMedias(updatedSimilarMedias);
+      } else {
+        let updatedMediaData = [...mediaData];
+
+        const findIndexOfRowItem = updatedMediaData.findIndex(
+          (item) => item.title === title
+        );
+
+        let currentMovieArrayFromRowItem =
+          updatedMediaData[findIndexOfRowItem].medias;
+        const findIndexOfCurrentMovie = currentMovieArrayFromRowItem.findIndex(
+          (item) => item.id === id
+        );
+
+        currentMovieArrayFromRowItem[findIndexOfCurrentMovie] = {
+          ...currentMovieArrayFromRowItem[findIndexOfCurrentMovie],
+          addedToFavorites: true,
+        };
+
+        setMediaData(updatedMediaData);
+      }
+    }
 
     console.log(data, "vedant");
   };
@@ -94,7 +162,7 @@ const MediaItem = ({ media, searchView = false, similarMovieView = false, listVi
               setShowDetailsPopUp(true);
               setCurrentMediaInfoIdAndType({
                 type: media?.type,
-                id: media?.id,
+                id: listView ? media?.movieID: media?.id,
               });
             }}
             className="cursor-pointer p-2 border flex items-center gap-x-2 rounded-full  text-sm

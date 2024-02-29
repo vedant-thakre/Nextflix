@@ -3,7 +3,7 @@ import CircleLoader from "@/components/CircleLoader";
 import MangeAccounts from "@/components/MangeAccounts";
 import Unauthpage from "@/components/Unauthpage";
 import { GlobalContext } from "@/context";
-import { getTVorMovieSearchResults } from "@/utils";
+import { getAllfavorites, getTVorMovieSearchResults } from "@/utils";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
@@ -26,6 +26,10 @@ const Search = () => {
     const getSearchResults = async () => {
       const tvShows = await getTVorMovieSearchResults("tv", params.query);
       const movies = await getTVorMovieSearchResults("movie", params.query);
+      const allFavorites = await getAllfavorites(
+        session?.user?.uid,
+        loggedInAccount?._id
+      );
 
       setSearchResults([
         ...tvShows
@@ -35,7 +39,12 @@ const Search = () => {
           .map((tvShowItem) => ({
             ...tvShowItem,
             type: "tv",
-            addedToFavorites: false,
+            addedToFavorites:
+              allFavorites && allFavorites.length
+                ? allFavorites
+                    .map((fav) => fav.movieID)
+                    .indexOf(tvShowItem.id) > -1
+                : false,
           })),
         ...movies
           .filter(
@@ -44,7 +53,11 @@ const Search = () => {
           .map((movieItem) => ({
             ...movieItem,
             type: "movie",
-            addedToFavorites: false,
+            addedToFavorites:
+              allFavorites && allFavorites.length
+                ? allFavorites.map((fav) => fav.movieID).indexOf(movieItem.id) >
+                  -1
+                : false,
           })),
       ]);
       setPageLoader(false);
