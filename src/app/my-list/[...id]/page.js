@@ -27,9 +27,12 @@ const Mylist = () => {
       console.log("data", data);
 
        if (data) {
-        setFavorites(data.map(item=> ({
-          ...item, addedToFavorites : true
-        })));
+        setFavorites(
+          data.map((item) => ({
+            ...item,
+            addedToFavorites: true,
+          }))
+        );
         setPageLoader(false);
       }
     };

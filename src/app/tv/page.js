@@ -30,6 +30,10 @@ const page = () => {
       const war = await getTVOrMoviesByGenre("tv", 10768);
       const western = await getTVOrMoviesByGenre("tv", 37);
       const dramaMovies = await getTVOrMoviesByGenre("tv", 18);
+      const allFavorites = await getAllfavorites(
+        session?.user?.uid,
+        loggedInAccount?._id
+      );
 
       setMediaData(
         [
@@ -78,11 +82,10 @@ const page = () => {
           medias: item.medias.map((mediaItem) => ({
             ...mediaItem,
             type: "tv",
-            addedToFavorites: false,
-              // allFavorites && allFavorites.length
-              //   ? allFavorites.map((fav) => fav.movieID).indexOf(mediaItem.id) >
-              //     -1
-              //   : false,
+            addedToFavorites:  allFavorites && allFavorites.length
+                ? allFavorites.map((fav) => fav.movieID).indexOf(mediaItem.id) >
+                  -1
+                : false,
           })),
         }))
       );

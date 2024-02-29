@@ -34,6 +34,10 @@ const Movies = () => {
        const drama = await getTVOrMoviesByGenre("movie", 18);
        const thriller = await getTVOrMoviesByGenre("movie", 53);
        const horror = await getTVOrMoviesByGenre("movie", 27);
+       const allFavorites = await getAllfavorites(
+          session?.user?.uid,
+          loggedInAccount?._id
+       );
 
       setMediaData(
         [
@@ -94,11 +98,10 @@ const Movies = () => {
           medias: item.medias.map((mediaItem) => ({
             ...mediaItem,
             type: "movie",
-            addedToFavorites: false,
-            // allFavorites && allFavorites.length
-            //   ? allFavorites.map((fav) => fav.movieID).indexOf(mediaItem.id) >
-            //     -1
-            //   : false,
+            addedToFavorites: allFavorites && allFavorites.length
+              ? allFavorites.map((fav) => fav.movieID).indexOf(mediaItem.id) >
+                -1
+              : false,
           })),
         }))
       );

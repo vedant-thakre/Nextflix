@@ -13,7 +13,7 @@ const AccountPopUp = ({
       <div className="flex flex-col gap-3 ">
         {accounts && accounts.length
           ? accounts
-              .filter((item) => item._id !== loggedInAccount._id)
+              .filter((item) => item._id !== loggedInAccount?._id)
               .map((account) => (
                 <div key={account._id} onClick={() => {
                     setLoggedInAccount(null);

@@ -6,6 +6,7 @@ import MangeAccounts from "@/components/MangeAccounts";
 import Unauthpage from "@/components/Unauthpage";
 import { GlobalContext } from "@/context";
 import {
+  getAllfavorites,
   getPopularMedias,
   getTopRatedMedias,
   getTrendingMedias,
@@ -25,17 +26,21 @@ const Browse = () => {
   } = useContext(GlobalContext);
 
   //console.log("session", session);
-  
+
   useEffect(() => {
     const getAllMedias = async () => {
       const trendingTvShow = await getTrendingMedias("tv");
       const popularTvShow = await getPopularMedias("tv");
       const topRatedTvShow = await getTopRatedMedias("tv");
-      
+
       const trendingMovieShow = await getTrendingMedias("movie");
       const popularMovieShow = await getPopularMedias("movie");
       const topRatedMovieShow = await getTopRatedMedias("movie");
-      
+      const allFavorites = await getAllfavorites(
+        session?.user?.uid,
+        loggedInAccount?._id
+      );
+
       setMediaData([
         ...[
           {
@@ -55,6 +60,11 @@ const Browse = () => {
           medias: item.medias?.map((mediaItem) => ({
             ...mediaItem,
             type: "tv",
+            addedToFavorites:
+              allFavorites && allFavorites.length
+                ? allFavorites.map((fav) => fav.movieID).indexOf(mediaItem.id) >
+                  -1
+                : false,
           })),
         })),
         ...[
@@ -75,6 +85,11 @@ const Browse = () => {
           medias: item.medias?.map((mediaItem) => ({
             ...mediaItem,
             type: "movies",
+            addedToFavorites:
+              allFavorites && allFavorites.length
+                ? allFavorites.map((fav) => fav.movieID).indexOf(mediaItem.id) >
+                  -1
+                : false,
           })),
         })),
       ]);
@@ -82,10 +97,10 @@ const Browse = () => {
     };
     getAllMedias();
   }, []);
-  
+
   if (session === null) return <Unauthpage />;
   if (loggedInAccount === null) return <MangeAccounts />;
-  if (pageLoader) return <CircleLoader/>
+  if (pageLoader) return <CircleLoader />;
 
   // console.log(mediaData);
 
