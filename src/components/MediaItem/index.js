@@ -14,7 +14,7 @@ import { getAllfavorites } from "@/utils";
 
 const base = "https://image.tmdb.org/t/p/w500";
 
-const MediaItem = ({ media, searchView = false, similarMovieView = false, listView = false }) => {
+const MediaItem = ({ media, searchView = false, similarMovieView = false, listView = false, title }) => {
   const router = useRouter();
   const { data: session } = useSession();
   const pathName = usePathname();

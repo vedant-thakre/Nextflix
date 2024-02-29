@@ -10,11 +10,12 @@ import {
   SpeakerXMarkIcon,
 } from "@heroicons/react/24/outline";
 import { GlobalContext } from "@/context";
-import { getSimilarTVorMovies, getTVorMovieDetailsByID } from "@/utils";
+import { getAllfavorites, getSimilarTVorMovies, getTVorMovieDetailsByID } from "@/utils";
 import ReactPlayer from "react-player";
 import MediaItem from "../MediaItem";
 import { AiFillPlayCircle } from "react-icons/ai";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const DetailsPopUp = ({ show, setShow }) => {
   const {
@@ -27,8 +28,11 @@ const DetailsPopUp = ({ show, setShow }) => {
   } = useContext(GlobalContext);
   const [key, setKey] = useState("");
 
+  const { data: session} = useSession();
+
   const router = useRouter();
   console.log("currentMediaInfoIdAndType", currentMediaInfoIdAndType);
+  
 
   useEffect(() => {
     if (currentMediaInfoIdAndType !== null) {
@@ -41,6 +45,11 @@ const DetailsPopUp = ({ show, setShow }) => {
         const extractSimilarMedia = await getSimilarTVorMovies(
           currentMediaInfoIdAndType.type,
           currentMediaInfoIdAndType.id
+        );
+
+        const allFavorites = await getAllfavorites(
+          session?.user?.uid,
+          loggedInAccount?._id
         );
 
         console.log("extractMediaDetails", extractMediaDetails);
@@ -76,10 +85,9 @@ const DetailsPopUp = ({ show, setShow }) => {
           extractSimilarMedia?.map((item) => ({
             ...item,
             type: currentMediaInfoIdAndType.type === "movie" ? "movie" : "tv",
-            addedToFavorites: false,
-            //   allFavorites && allFavorites.length
-            //     ? allFavorites.map((fav) => fav.movieID).indexOf(item.id) > -1
-            //     : false,
+            addedToFavorites: allFavorites && allFavorites.length
+                ? allFavorites.map((fav) => fav.movieID).indexOf(item.id) > -1
+                : false,
           }))
         );
       };
