@@ -30,6 +30,8 @@ const MediaItem = ({ media, searchView = false, similarMovieView = false, listVi
     searchResults,
     setSearchResults,
     setCurrentMediaInfoIdAndType,
+    setMediaData,
+    mediaData,
   } = useContext(GlobalContext);
 
 
@@ -111,12 +113,16 @@ const MediaItem = ({ media, searchView = false, similarMovieView = false, listVi
         setMediaData(updatedMediaData);
       }
     }
-
-    console.log(data, "vedant");
   };
 
   const handleRemoveFavorites = async(item) => {
+      const res = await fetch(`/api/favorites/delete-favorites?id=${item._id}`, {
+        method: "DELETE",
+      });
 
+      const data = await res.json();
+
+      if (data.success) updateFavorites();
   }
 
   return (
@@ -138,14 +144,20 @@ const MediaItem = ({ media, searchView = false, similarMovieView = false, listVi
           alt="media"
           layout="fill"
           className="rounded sm object-cover md:rounded hover:rounded-sm"
-          onClick={() => router.push(`/watch/${media?.type}/${media?.id}`)}
+          onClick={() =>
+            router.push(
+              `/watch/${media?.type}/${listView ? media?.movieID : media?.id}`
+            )
+          }
         />
         <div className="space-x-3 hidden absolute p-2 bottom-0 buttonWrapper">
           <button
             onClick={
               media?.addedToFavorites
+                ? listView
                   ? () => handleRemoveFavorites(media)
-                  : () => handleAddToFavorites(media)
+                  : null
+                : () => handleAddToFavorites(media)
             }
             className={`${
               media?.addedToFavorites && !listView && "cursor-not-allowed"
@@ -162,7 +174,7 @@ const MediaItem = ({ media, searchView = false, similarMovieView = false, listVi
               setShowDetailsPopUp(true);
               setCurrentMediaInfoIdAndType({
                 type: media?.type,
-                id: listView ? media?.movieID: media?.id,
+                id: listView ? media?.movieID : media?.id,
               });
             }}
             className="cursor-pointer p-2 border flex items-center gap-x-2 rounded-full  text-sm

@@ -6,6 +6,9 @@ import React, { useContext, useEffect } from "react";
 import { motion } from "framer-motion";
 import MediaItem from "@/components/MediaItem";
 import Navbar from "@/components/Navbar";
+import Unauthpage from "@/components/Unauthpage";
+import MangeAccounts from "@/components/MangeAccounts";
+import CircleLoader from "@/components/CircleLoader";
 
 const Mylist = () => {
   const {
@@ -38,6 +41,10 @@ const Mylist = () => {
     };
     extractFavorites();
   }, [loggedInAccount]);
+
+  if(session === null) return <Unauthpage/>;
+  if(loggedInAccount === null) return <MangeAccounts/>;
+  if(pageLoader) return <CircleLoader/>;
 
   return (
     <motion.div
