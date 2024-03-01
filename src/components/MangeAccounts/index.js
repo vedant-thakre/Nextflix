@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import React, { useContext, useEffect, useState } from "react";
 import CircleLoader from "../CircleLoader";
 import AccountForm from "./AccountForm";
-import { TrashIcon } from '@heroicons/react/24/outline'
+import { TrashIcon } from "@heroicons/react/24/outline";
 import PinContainer from "./PinContainer";
 import { usePathname, useRouter } from "next/navigation";
 const initialFormData = {
@@ -16,9 +16,12 @@ const MangeAccounts = () => {
   const [showAccountForm, setShowAccountForm] = useState(false);
   const [formData, setFormData] = useState(initialFormData);
   const [showDeleteIcon, setShowDeleteIcon] = useState(false);
-  const [pin, setPin] = useState('');
+  const [pin, setPin] = useState("");
   const [pinError, setPinError] = useState(false);
-  const [showPinContainer, setShowPinContainer] = useState({show: false, account: null});
+  const [showPinContainer, setShowPinContainer] = useState({
+    show: false,
+    account: null,
+  });
   const {
     accounts,
     setAccounts,
@@ -75,18 +78,17 @@ const MangeAccounts = () => {
   };
 
   const handleDeleteAccount = async (item) => {
-      const res = await fetch(`/api/account/remove-account?id=${item._id}`,
-      {
-        method: "DELETE"
-      });
+    const res = await fetch(`/api/account/remove-account?id=${item._id}`, {
+      method: "DELETE",
+    });
 
-      const data = await res.json();
+    const data = await res.json();
 
-      if(data.success){
-        getAllAccounts();
-        setShowDeleteIcon(false);
-      }
-  }
+    if (data.success) {
+      getAllAccounts();
+      setShowDeleteIcon(false);
+    }
+  };
 
   const handlePinSubmit = async (value, index) => {
     const res = await fetch(`/api/account/login-to-account`, {
@@ -109,7 +111,12 @@ const MangeAccounts = () => {
         "loggedInAccount",
         JSON.stringify(showPinContainer.account)
       );
-      router.push(pathName);
+      if (pathName.includes("my-list")){
+        router.push(`/my-list/${session?.user?.uid}/${showPinContainer.account?._id}`);
+      }else{
+        router.push(pathName);
+      }
+       
       setPageLoader(false);
     } else {
       setPageLoader(false);
@@ -136,7 +143,11 @@ const MangeAccounts = () => {
                 <li
                   className="max-w-[200px] w-[155px] cursor-pointer flex flex-col items-center gap-3 min-w-[200px]"
                   key={item._id}
-                  onClick={showDeleteIcon ? null : ()=> setShowPinContainer({ show: true, account: item})}
+                  onClick={
+                    showDeleteIcon
+                      ? null
+                      : () => setShowPinContainer({ show: true, account: item })
+                  }
                 >
                   <div className="relative">
                     <img
