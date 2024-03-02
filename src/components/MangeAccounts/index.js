@@ -89,7 +89,7 @@ const MangeAccounts = () => {
       setShowDeleteIcon(false);
     }
   };
-
+ // added few changes
   const handlePinSubmit = async (value, index) => {
     setPageLoader(true);
     const res = await fetch(`/api/account/login-to-account`, {
