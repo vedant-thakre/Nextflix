@@ -11,7 +11,7 @@ const initialFormData = {
   name: "",
   pin: "",
 };
-// few changes
+// few more changes
 const MangeAccounts = () => {
   const [showAccountForm, setShowAccountForm] = useState(false);
   const [formData, setFormData] = useState(initialFormData);
