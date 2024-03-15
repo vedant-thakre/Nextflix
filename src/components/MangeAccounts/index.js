@@ -21,7 +21,6 @@ const MangeAccounts = () => {
     show: false,
     account: null,
   });
-  // few changes
   const {
     accounts,
     setAccounts,
